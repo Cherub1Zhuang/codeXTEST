@@ -1,23 +1,27 @@
 name: Node CI
-on: [push]
-job:
+
+# 触发条件：每次 push 到任意分支时执行
+on:
+  push: [main]
+
+jobs:
   build:
-  runs-on: ubuntu-latest
-  steps:
-    - name: checkout
-      use: actions/checkout@v4
-    - name: npm
-      run: |
-        npm install
-        npm run build
-    - name: artifacts
-      use: actions/upload-artifact@v4
-      with:
-        name: dist
-        path:
-          dist
-    - name: upload
-      uses: actions/upload-artifact@v4
-      with:
-        name: upload
-        path: dist
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 签出代码
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. 安装依赖并构建
+      - name: Install dependencies & build
+        run: |
+          npm install
+          npm run build
+
+      # 3. 上传 dist 目录作为 Artifact
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
