@@ -37,27 +37,4 @@ jobs:
 
       # 5. 列出 dist 目录内容，便于调试
       - name: List dist directory
-        run: ls -R dist
-
-      # 6. （可选）如果使用 history 模式路由，需要复制 404.html 以做回退
-      - name: Create 404.html for SPA fallback
-        run: cp dist/index.html dist/404.html
-
-      # 7. 上传 dist 目录到 Pages Artifact
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      # 部署成功后，这里会自动填充 page_url
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      # 1. 将上一步打包好的 dist 目录发布到 GitHub Pages
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        run: ls 
