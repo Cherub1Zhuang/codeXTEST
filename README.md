@@ -27,3 +27,9 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Automatic Deployment
+
+Pushing changes to the `main` branch triggers a GitHub Actions workflow that
+builds the project and deploys the contents of `dist` to GitHub Pages.
+Enable GitHub Pages for your repository to have updates deployed automatically.
