@@ -13,25 +13,40 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # 1. 签出代码
       - uses: actions/checkout@v4
+
+      # 2. 安装 Node.js（以 20.x 为例）
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm ci
-      - run: npm install
-      - run: npm run build
-      - name: 构建完成后列出文件树（debug）
-        run: ls -R .
 
-      - uses: actions/upload-pages-artifact@v3
+      # 3. 安装依赖
+      - name: 安装依赖
+        run: npm ci
+
+      # 4. 运行构建，将静态文件输出到 dist
+      - name: 本地构建
+        run: npm run build
+
+      # 5. 仅列出 dist 目录内容（调试用）
+      - name: 列出 dist 内容（debug）
+        run: ls -R dist
+
+      # 6. 上传 dist 目录到 Pages Artifact
+      - name: 上传 dist 产物
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
+      # 部署成功后会自动填充 page_url
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # 1. 直接调用 deploy-pages，动作会自动获取上一步 upload 的 dist
       - id: deployment
         uses: actions/deploy-pages@v4
