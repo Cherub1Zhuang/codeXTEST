@@ -20,6 +20,9 @@ jobs:
       - run: npm ci
       - run: npm install
       - run: npm run build
+      - name: 构建完成后列出文件树（debug）
+        run: ls -R .
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
